@@ -1,0 +1,50 @@
+
+{% extends "base.html" %}
+
+{% block title %}Checkout | Bintang Satria Store{% endblock %}
+
+{% block content %}
+<section class="page-heading">
+    <span class="eyebrow">SELANGKAH LAGI</span>
+    <h1>Checkout</h1>
+    <p>Isi informasi berikut untuk menyelesaikan simulasi pesanan.</p>
+</section>
+
+{% if items %}
+<div class="checkout-layout">
+    <form class="checkout-form" method="POST">
+        <label for="nama">Nama lengkap</label>
+        <input id="nama" name="nama" type="text"
+               required maxlength="100" placeholder="Nama lengkap">
+
+        <label for="email">Alamat email</label>
+        <input id="email" name="email" type="email"
+               required maxlength="150" placeholder="nama@email.com">
+
+        <label for="alamat">Alamat pengiriman</label>
+        <textarea id="alamat" name="alamat"
+                  required maxlength="500"
+                  placeholder="Masukkan alamat lengkap"></textarea>
+
+        <button class="btn" type="submit">Buat Pesanan Demo</button>
+    </form>
+
+    <aside class="order-summary">
+        <h3>Ringkasan Pesanan</h3>
+        {% for item in items %}
+        <p>{{ item.name }} × {{ item.quantity }}</p>
+        <strong>{{ item.subtotal | rupiah }}</strong>
+        {% endfor %}
+        <hr>
+        <p>Total pembayaran demo</p>
+        <h2>{{ total | rupiah }}</h2>
+        <small>Tidak ada pembayaran sungguhan.</small>
+    </aside>
+</div>
+{% else %}
+<div class="empty-state">
+    <h2>Belum ada produk</h2>
+    <a class="btn" href="{{ url_for('products') }}">Pilih Produk</a>
+</div>
+{% endif %}
+{% endblock %}

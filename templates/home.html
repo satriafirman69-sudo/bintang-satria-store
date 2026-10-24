@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}Bintang Satria Store{% endblock %}
+
+{% block content %}
+<section class="hero">
+	<div>
+		<span class="eyebrow">SELAMAT DATANG DI BINTANG SATRIA STORE</span>
+		<h1>Belanja mudah,<br>gaya makin seru.</h1>
+		<p>Temukan produk pilihan dengan pengalaman belanja
+		   yang praktis dan nyaman.</p>
+		<a class="btn" href="{{ url_for('products') }}">Jelajahi Produk →</a>
+	</div>
+	<div class="hero-art">🛍️</div>
+</section>
+
+<section class="section-heading">
+	<div>
+		<span class="eyebrow">PILIHAN UNTUKMU</span>
+		<h2>Produk Unggulan</h2>
+	</div>
+	<a href="{{ url_for('products') }}">Lihat semua →</a>
+</section>
+
+<div class="product-grid">
+	{% for product in products %}
+	<article class="product-card">
+		<div class="product-image">{{ product.emoji }}</div>
+		<div class="product-info">
+			<span class="category">{{ product.category }}</span>
+			<h3>{{ product.name }}</h3>
+			<p>{{ product.description }}</p>
+			<div class="product-bottom">
+				<strong>{{ product.price | rupiah }}</strong>
+				<form action="{{ url_for('add_to_cart',
+										 product_id=product.id) }}"
+					  method="POST">
+					<button class="btn small" type="submit">+ Keranjang</button>
+				</form>
+			</div>
+		</div>
+	</article>
+	{% endfor %}
+</div>
+{% endblock %}

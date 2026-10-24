@@ -1,0 +1,46 @@
+
+{% extends "base.html" %}
+
+{% block title %}Katalog Produk | Bintang Satria Store{% endblock %}
+
+{% block content %}
+<section class="page-heading">
+    <span class="eyebrow">KATALOG TOKO</span>
+    <h1>Semua Produk</h1>
+    <p>Pilih produk favoritmu dan tambahkan ke keranjang.</p>
+</section>
+
+<form class="search-form" action="{{ url_for('products') }}" method="GET">
+    <input type="search" name="q" value="{{ keyword }}"
+           placeholder="Cari nama atau kategori produk...">
+    <button class="btn" type="submit">Cari</button>
+</form>
+
+<div class="product-grid">
+    {% for product in products %}
+    <article class="product-card">
+        <div class="product-image">{{ product.emoji }}</div>
+        <div class="product-info">
+            <span class="category">{{ product.category }}</span>
+            <h3>{{ product.name }}</h3>
+            <p>{{ product.description }}</p>
+            <div class="product-bottom">
+                <strong>{{ product.price | rupiah }}</strong>
+                <form action="{{ url_for('add_to_cart',
+                                         product_id=product.id) }}"
+                      method="POST">
+                    <button class="btn small" type="submit">+ Keranjang</button>
+                </form>
+            </div>
+        </div>
+    </article>
+    {% else %}
+    <div class="empty-state">
+        <div>🔎</div>
+        <h3>Produk tidak ditemukan</h3>
+        <p>Coba kata kunci lain.</p>
+        <a class="btn" href="{{ url_for('products') }}">Lihat semua produk</a>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

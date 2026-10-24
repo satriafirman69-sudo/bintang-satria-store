@@ -1,0 +1,45 @@
+
+{% extends "base.html" %}
+
+{% block title %}Keranjang | Bintang Satria Store{% endblock %}
+
+{% block content %}
+<section class="page-heading">
+    <span class="eyebrow">PESANANMU</span>
+    <h1>Keranjang Belanja</h1>
+</section>
+
+{% if items %}
+<div class="cart-list">
+    {% for item in items %}
+    <article class="cart-item">
+        <div class="cart-emoji">{{ item.emoji }}</div>
+        <div class="cart-detail">
+            <h3>{{ item.name }}</h3>
+            <p>{{ item.price | rupiah }} × {{ item.quantity }}</p>
+            <strong>{{ item.subtotal | rupiah }}</strong>
+        </div>
+        <form action="{{ url_for('remove_from_cart',
+                                 product_id=item.id) }}"
+              method="POST"
+              onsubmit="return confirm('Hapus produk ini?')">
+            <button class="btn-danger" type="submit">Hapus</button>
+        </form>
+    </article>
+    {% endfor %}
+</div>
+
+<div class="total-box">
+    <span>Total belanja</span>
+    <h2>{{ total | rupiah }}</h2>
+    <a class="btn" href="{{ url_for('checkout') }}">Lanjut Checkout →</a>
+</div>
+{% else %}
+<div class="empty-state">
+    <div>🛒</div>
+    <h2>Keranjangmu masih kosong</h2>
+    <p>Yuk, cari produk yang kamu suka!</p>
+    <a class="btn" href="{{ url_for('products') }}">Mulai Belanja</a>
+</div>
+{% endif %}
+{% endblock %}
